@@ -5,89 +5,607 @@
   padding: 0;
 }
 
+/* RTL support */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
 /* —— body + fonts —— */
 body {
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  color: #333;
+  color: #2c2c2c;
   display: flex;
   justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  min-height: 100vh;
 }
 
 .page-wrapper {
   width: 90%;
-  max-width: 900px;
+  max-width: 1200px;
+  background: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 20px 20px;
 }
 
 /* header */
 .site-header {
   text-align: center;
-  padding-top: 50px;
-  padding-bottom: 10px;
+  padding: 60px 40px 30px;
+  background: linear-gradient(135deg, #000000 0%, #2c2c2c 100%);
+  color: white;
+  margin: 0 -40px 40px;
+  border-radius: 0 0 20px 20px;
 }
 
 .logo {
-  width: 250px;
-  margin-bottom: 15px;
+  width: 280px;
+  margin-bottom: 20px;
+  filter: brightness(0) invert(1);
 }
 
 .site-title {
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 28px;
+  font-weight: 300;
   margin-bottom: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-/* category filter */
+/* RTL Toggle Button */
+#directionToggle {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+  padding: 8px 12px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+[dir="rtl"] #directionToggle {
+  right: auto !important;
+  left: 0 !important;
+}
+
+#directionToggle:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#directionToggle i {
+  margin-right: 6px;
+}
+
+[dir="rtl"] #directionToggle i {
+  margin-right: 0;
+  margin-left: 6px;
+}
+
+/* Responsive design for RTL toggle */
+@media (max-width: 768px) {
+  #directionToggle {
+    font-size: 12px !important;
+    padding: 6px 10px !important;
+  }
+}
+
+/* category filter and search */
 .search-section {
-  margin: 30px 0;
+  margin: 30px 40px;
   display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.filter-container {
+  flex: 1;
+}
+
+.search-container {
+  flex: 1;
+  position: relative;
 }
 
 .search-section select {
   width: 100%;
-  padding: 16px;
-  font-size: 18px;
-  border: 2px solid #000;
-  border-radius: 8px;
+  padding: 18px 24px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
   cursor: pointer;
   background-color: white;
   font-weight: 500;
+  color: #2c2c2c;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Montserrat", sans-serif;
 }
 
 .search-section select:focus {
   outline: none;
-  border-color: #666;
+  border-color: #d4af37;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+}
+
+#productSearch {
+  width: 100%;
+  padding: 18px 24px 18px 50px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background-color: white;
+  font-weight: 500;
+  color: #2c2c2c;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Montserrat", sans-serif;
+}
+
+/* RTL support for search input */
+[dir="rtl"] #productSearch {
+  padding: 18px 50px 18px 24px;
+}
+
+#productSearch:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+}
+
+#productSearch::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #d4af37;
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* RTL support for search icon */
+[dir="rtl"] .search-icon {
+  left: auto;
+  right: 18px;
+}
+
+/* Responsive design for search section */
+@media (max-width: 768px) {
+  .search-section {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .filter-container,
+  .search-container {
+    flex: none;
+  }
+
+  /* RTL responsive adjustments */
+  [dir="rtl"] .product-card {
+    flex-direction: column;
+    text-align: right;
+  }
+
+  [dir="rtl"] .product-modal-image {
+    float: none;
+    margin: 0 auto 16px auto;
+    display: block;
+  }
+
+  [dir="rtl"] .chat-message {
+    max-width: 95%;
+  }
 }
 
 /* chat section */
 .chatbox {
-  margin: 40px 0;
-  border: 2px solid #000;
-  border-radius: 8px;
-  padding: 26px;
+  margin: 40px;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 30px;
+  background: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .chatbox h2 {
-  font-size: 20px;
+  font-size: 24px;
   margin-bottom: 20px;
+  color: #2c2c2c;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .chat-window {
-  padding: 20px;
-  font-size: 18px;
-  line-height: 1.5;
-  height: 250px;
+  padding: 24px;
+  font-size: 15px;
+  line-height: 1.6;
+  height: 350px;
   overflow-y: auto;
-  background: #fafafa;
+  background: #fdfdfd;
   margin-bottom: 20px;
+  border-radius: 12px;
+  border: 1px solid #e8e8e8;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Chat message styles */
+.chat-message {
+  margin-bottom: 18px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  max-width: 85%;
+  word-wrap: break-word;
+  clear: both;
+  display: block;
+  font-family: "Montserrat", sans-serif;
+  line-height: 1.6;
+}
+
+.user-message {
+  background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+  color: #ffffff;
+  margin-left: auto;
+  margin-right: 0;
+  text-align: left;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* RTL support for user messages */
+[dir="rtl"] .user-message {
+  margin-left: 0;
+  margin-right: auto;
+  text-align: right;
+}
+
+.assistant-message {
+  background: linear-gradient(135deg, #fdf8f3 0%, #fff5f0 100%);
+  color: #2c2c2c;
+  border: 1px solid #f4e6d9;
+  margin-left: 0;
+  margin-right: auto;
+  box-shadow: 0 2px 12px rgba(212, 175, 55, 0.08);
+  position: relative;
+}
+
+/* RTL support for assistant messages */
+[dir="rtl"] .assistant-message {
+  margin-left: auto;
+  margin-right: 0;
+  text-align: right;
+}
+
+.message-header {
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  opacity: 0.8;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-family: "Montserrat", sans-serif;
+}
+
+.user-message .message-header {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.assistant-message .message-header {
+  color: #d4af37;
+}
+
+.message-content {
+  font-size: 15px;
+  line-height: 1.65;
+  font-weight: 400;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 0.2px;
+}
+
+.message-content p {
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+
+.message-content p:last-child {
+  margin-bottom: 0;
+}
+
+.message-content p:first-child {
+  margin-top: 0;
+}
+
+/* Add a cute sparkle effect */
+.assistant-message::before {
+  content: "✨";
+  position: absolute;
+  top: -8px;
+  right: 15px;
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+/* RTL support for sparkle effect */
+[dir="rtl"] .assistant-message::before {
+  right: auto;
+  left: 15px;
+}
+
+/* Routine-specific formatting */
+.routine-content {
+  margin-top: 12px;
+}
+
+.routine-section {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 20px 0 12px 0;
+  color: #1a1a1a;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.routine-section.morning {
+  color: #d4af37;
+}
+
+.routine-section.morning::before {
+  content: "☀️ ";
+  margin-right: 8px;
+}
+
+/* RTL support for morning icon */
+[dir="rtl"] .routine-section.morning::before {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+.routine-section.evening {
+  color: #8b4513;
+}
+
+.routine-section.evening::before {
+  content: "🌙 ";
+  margin-right: 8px;
+}
+
+/* RTL support for evening icon */
+[dir="rtl"] .routine-section.evening::before {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+.routine-step {
+  margin: 12px 0;
+  padding: 8px 0;
+  font-size: 15px;
+  line-height: 1.6;
+  font-family: "Montserrat", sans-serif;
+}
+
+.step-number {
+  font-weight: 700;
+  color: #d4af37;
+  margin-right: 8px;
+  font-size: 15px;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* RTL support for step numbers */
+[dir="rtl"] .step-number {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+.product-name {
+  color: #1a1a1a;
+  font-weight: 600;
+  font-size: 15px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.product-mention {
+  color: #1a1a1a;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+}
+
+.frequency {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-left: 6px;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* RTL support for frequency indicators */
+[dir="rtl"] .frequency {
+  margin-left: 0;
+  margin-right: 6px;
+}
+
+.frequency.daily {
+  color: #27ae60;
+}
+
+.frequency.weekly {
+  color: #d4af37;
+}
+
+.frequency.twice-weekly {
+  color: #8b4513;
+}
+
+.tip-section {
+  margin: 16px 0;
+  font-weight: 500;
+  font-size: 15px;
+  color: #8b4513;
+  font-family: "Montserrat", sans-serif;
+  position: relative;
+  padding-left: 24px;
+}
+
+/* RTL support for tip section */
+[dir="rtl"] .tip-section {
+  padding-left: 0;
+  padding-right: 24px;
+}
+
+.tip-section::before {
+  content: "💡";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 16px;
+}
+
+/* RTL support for tip section icon */
+[dir="rtl"] .tip-section::before {
+  left: auto;
+  right: 0;
+}
+
+.benefits-section {
+  margin: 16px 0;
+  font-weight: 500;
+  font-size: 15px;
+  color: #2c2c2c;
+  font-family: "Montserrat", sans-serif;
+  position: relative;
+  padding-left: 24px;
+}
+
+/* RTL support for benefits section */
+[dir="rtl"] .benefits-section {
+  padding-left: 0;
+  padding-right: 24px;
+}
+
+.benefits-section::before {
+  content: "💖";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 16px;
+}
+
+/* RTL support for benefits section icon */
+[dir="rtl"] .benefits-section::before {
+  left: auto;
+  right: 0;
+}
+
+.bullet-point {
+  color: #d4af37;
+  font-weight: 700;
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* RTL support for bullet points */
+[dir="rtl"] .bullet-point {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+.bullet-point::before {
+  content: "•";
+  color: #d4af37;
+  margin-right: 4px;
+}
+
+/* RTL support for bullet point content */
+[dir="rtl"] .bullet-point::before {
+  margin-right: 0;
+  margin-left: 4px;
+}
+
+.loading-text {
+  color: #8e8e8e;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 0.3px;
+}
+
+/* RTL support for loading text */
+[dir="rtl"] .loading-text {
+  flex-direction: row-reverse;
+}
+
+.loading-text::after {
+  content: "⏳";
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.chat-message strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.user-message strong {
+  color: #ccc;
+}
+
+.assistant-message strong {
+  color: #666;
+}
+
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* placeholder message */
 .placeholder-message {
   width: 100%;
   text-align: center;
-  padding: 40px;
-  color: #666;
+  padding: 60px 40px;
+  color: #d4af37;
   font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.placeholder-message::before {
+  content: "👋 ";
+  font-size: 24px;
+  display: block;
+  margin-bottom: 12px;
 }
 
 /* input row */
@@ -99,21 +617,24 @@ body {
 
 .chat-form input {
   flex: 1;
-  padding: 12px;
-  font-size: 18px;
-  border: none;
-  border-bottom: 2px solid #ccc;
-  background: transparent;
+  padding: 16px 20px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: white;
+  transition: all 0.3s ease;
+  color: #2c2c2c;
 }
 
 .chat-form input:focus {
   outline: none;
-  border-bottom-color: #000;
+  border-color: #000000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .chat-form button {
   font-size: 18px;
-  background: #000;
+  background: linear-gradient(135deg, #000000 0%, #2c2c2c 100%);
   color: #fff;
   border: none;
   padding: 12px;
@@ -123,11 +644,15 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .chat-form button:hover {
-  background: #666666;
+  background: linear-gradient(135deg, #2c2c2c 0%, #000000 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 .chat-form button:focus {
@@ -174,18 +699,216 @@ body {
 .products-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  margin: 30px 0;
+  gap: 24px;
+  margin: 30px 40px;
 }
 
 .product-card {
-  flex: 0 1 calc(33.333% - 14px);
-  border: 1px solid #ccc;
-  padding: 15px;
-  border-radius: 4px;
+  flex: 0 1 calc(33.333% - 16px);
+  border: 1px solid #e8e8e8;
+  padding: 20px;
+  border-radius: 16px;
   display: flex;
-  gap: 15px;
-  min-height: 160px;
+  gap: 16px;
+  min-height: 180px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  background: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* RTL support for product cards */
+[dir="rtl"] .product-card {
+  flex-direction: row-reverse;
+}
+
+.product-card:hover {
+  border-color: #000000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.product-card.selected {
+  border: 2px solid #000000;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Product Modal */
+.product-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.product-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.product-modal-content {
+  background: white;
+  border-radius: 20px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 85vh;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transform: scale(0.9);
+  transition: transform 0.4s ease;
+}
+
+.product-modal.active .product-modal-content {
+  transform: scale(1);
+}
+
+.product-modal-header {
+  padding: 30px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.product-modal-title {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.product-modal-title h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #2c2c2c;
+  letter-spacing: 0.5px;
+}
+
+.product-modal-title .brand {
+  font-size: 16px;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.product-modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #666;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.product-modal-close:hover {
+  background-color: #f0f0f0;
+  color: #000;
+  transform: scale(1.1);
+}
+
+.product-modal-body {
+  padding: 30px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.product-modal-image {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  float: left;
+  margin: 0 24px 24px 0;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 16px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* RTL support for modal image */
+[dir="rtl"] .product-modal-image {
+  float: right;
+  margin: 0 0 24px 24px;
+}
+
+.product-modal-description {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #2c2c2c;
+  text-align: justify;
+  font-weight: 400;
+}
+
+/* RTL support for modal description */
+[dir="rtl"] .product-modal-description {
+  text-align: justify;
+}
+
+.product-modal-actions {
+  padding: 24px 30px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  gap: 16px;
+  background: #fafafa;
+}
+
+.modal-btn {
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-btn-primary {
+  background: linear-gradient(135deg, #000000 0%, #2c2c2c 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal-btn-primary:hover {
+  background: linear-gradient(135deg, #2c2c2c 0%, #000000 100%);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.modal-btn-secondary {
+  background: white;
+  color: #2c2c2c;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-btn-secondary:hover {
+  background: #f8f9fa;
+  border-color: #000000;
+  transform: translateY(-2px);
 }
 
 .product-card img {
@@ -215,41 +938,135 @@ body {
 
 /* selected products */
 .selected-products {
-  margin: 40px 0;
-  padding: 20px;
-  border: 2px solid #000;
-  border-radius: 8px;
+  margin: 40px;
+  padding: 30px;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .selected-products h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
+  font-size: 24px;
+  margin-bottom: 0;
+  color: #2c2c2c;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.clear-all-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+.clear-all-btn:hover {
+  background: linear-gradient(135deg, #b8941f 0%, #9c7b1a 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.clear-all-btn i {
+  font-size: 11px;
 }
 
 #selectedProductsList {
   display: flex;
   flex-wrap: wrap;
+  gap: 12px;
+}
+
+.selected-product-item {
+  display: flex;
+  align-items: center;
   gap: 10px;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2c2c2c;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.selected-product-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.selected-product-item .remove-btn {
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(139, 69, 19, 0.3);
+}
+
+/* RTL support for remove button */
+[dir="rtl"] .selected-product-item .remove-btn {
+  margin-left: 0;
+  margin-right: 6px;
+}
+
+.selected-product-item .remove-btn:hover {
+  background: linear-gradient(135deg, #a0522d 0%, #8b4513 100%);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
 }
 
 .generate-btn {
   width: 100%;
-  margin-top: 20px;
-  padding: 16px;
+  margin-top: 24px;
+  padding: 18px;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 700;
   color: #fff;
-  background: #000;
+  background: linear-gradient(135deg, #000000 0%, #2c2c2c 100%);
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .generate-btn:hover {
-  background: #666;
+  background: linear-gradient(135deg, #2c2c2c 0%, #000000 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .generate-btn i {
-  margin-right: 8px;
+  margin-right: 10px;
+}
+
+/* RTL support for generate button icon */
+[dir="rtl"] .generate-btn i {
+  margin-right: 0;
+  margin-left: 10px;
 }
