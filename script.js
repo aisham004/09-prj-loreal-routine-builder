@@ -381,24 +381,39 @@ Always prioritize user safety and skin health.${selectedProductsContext}`;
   });
 
   /* Make API request to OpenAI */
-  const response = await fetch( OPENAI_API_KEY, 
-    
-    // I set up the cloudflare worker to handle the API key, but it wasn't working properly so I am using the API key directly here 
+  // const response = await fetch(
+  //   OPENAI_API_KEY,
 
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4o",
-        messages: messages,
-        max_tokens: 400,
-        temperature: 0.7,
-      }),
-    }
-  );
+  //   // I set up the cloudflare worker to handle the API key, but it wasn't working properly so I am using the API key directly here
+
+  //   {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${OPENAI_API_KEY}`,
+  //     },
+  //     body: JSON.stringify({
+  //       model: "gpt-4o",
+  //       messages: messages,
+  //       max_tokens: 400,
+  //       temperature: 0.7,
+  //     }),
+  //   }
+  // );
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: "gpt-4o",
+      messages: messages,
+      max_tokens: 400,
+      temperature: 0.7,
+    }),
+  });
 
   if (!response.ok) {
     throw new Error(`API request failed: ${response.status}`);
