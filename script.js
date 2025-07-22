@@ -414,7 +414,7 @@ Always prioritize user safety and skin health.${selectedProductsContext}`;
       temperature: 0.7,
     }),
   });
-
+ 
   if (!response.ok) {
     throw new Error(`API request failed: ${response.status}`);
   }
