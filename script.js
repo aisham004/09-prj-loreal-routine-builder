@@ -381,25 +381,31 @@ Always prioritize user safety and skin health.${selectedProductsContext}`;
   });
 
   /* Make API request to OpenAI */
-  const response = await fetch(OPENAI_API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${OPENAI_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: "gpt-4o",
-      messages: messages,
-      max_tokens: 400,
-      temperature: 0.7,
-    }),
-  });
+  const response = await fetch( OPENAI_API_KEY, 
+    
+    // I set up the cloudflare worker to handle the API key, but it wasn't working properly so I am using the API key directly here 
+
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o",
+        messages: messages,
+        max_tokens: 400,
+        temperature: 0.7,
+      }),
+    }
+  );
 
   if (!response.ok) {
     throw new Error(`API request failed: ${response.status}`);
   }
 
   const data = await response.json();
+  console.log("OpenAI API response:", data.choices[0].message.content);
   return data.choices[0].message.content;
 }
 
@@ -591,12 +597,18 @@ generateRoutineBtn.addEventListener("click", async () => {
   );
 
   try {
-    /* Get AI response with complete product data */
-    const response = await generateRoutineWithProducts(selectedProducts);
+    /* Create detailed routine request message */
+    const productDetails = selectedProducts
+      .map((p) => `${p.name} by ${p.brand} (${p.category})`)
+      .join(", ");
+    const routineRequest = `Please create a detailed step-by-step beauty routine using these selected products: ${productDetails}. Include morning and evening routines, application order, frequency, tips, and benefits.`;
+
+    /* Get AI response using existing function */
+    const aiResponse = await getOpenAIResponse(routineRequest);
 
     /* Remove loading message and add AI response */
     removeLoadingMessage();
-    addMessageToChat("assistant", response);
+    addMessageToChat("assistant", aiResponse);
   } catch (error) {
     console.error("Error generating routine:", error);
     removeLoadingMessage();
@@ -606,99 +618,6 @@ generateRoutineBtn.addEventListener("click", async () => {
     );
   }
 });
-
-/* Function to generate routine with complete product JSON data */
-async function generateRoutineWithProducts(products) {
-  /* Create detailed JSON structure for selected products */
-  const productDataForAI = products.map((product) => ({
-    id: product.id,
-    name: product.name,
-    brand: product.brand,
-    category: product.category,
-    description: product.description,
-    image: product.image,
-  }));
-
-  /* Create system message specifically for routine generation */
-  const systemMessage = `You are an expert L'Oréal beauty advisor specializing in creating personalized skincare and beauty routines.
-
-Your task is to analyze the provided product data and create a comprehensive, step-by-step routine that includes:
-1. The correct order of application
-2. Frequency of use (morning/evening/weekly)
-3. Application tips and techniques
-4. Benefits of each product in the routine
-5. Any important warnings or considerations
-
-FORMATTING REQUIREMENTS:
-- Use clear section headers like "Morning:" and "Evening:"
-- Number each step (1., 2., 3., etc.)
-- Include "Tips:" sections for application advice
-- Add "Benefits:" sections to explain why each product works
-- Use simple, friendly language
-- Keep steps concise but informative
-
-Focus on L'Oréal family brands (CeraVe, Urban Decay, Lancôme, etc.) and provide professional beauty advice.
-Be detailed but easy to follow with clear visual structure.`;
-
-  /* Create the routine generation prompt with complete product JSON */
-  const routinePrompt = `Please create a detailed beauty routine using these selected products:
-
-${JSON.stringify(productDataForAI, null, 2)}
-
-Create a well-structured routine that includes:
-
-**Morning:**
-1. [First step with product name]
-2. [Second step with product name]
-etc.
-
-**Evening:**
-1. [First step with product name]
-2. [Second step with product name]
-etc.
-
-**Tips:**
-- Include specific application techniques
-- Mention frequency (daily, weekly, etc.)
-- Add any important timing notes
-
-**Benefits:**
-- Explain what each product does
-- Describe expected results
-
-Format with clear headers and numbered steps for easy reading.`;
-
-  /* Make API request to OpenAI */
-  const response = await fetch(OPENAI_API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${OPENAI_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: systemMessage,
-        },
-        {
-          role: "user",
-          content: routinePrompt,
-        },
-      ],
-      max_tokens: 800, // Increased for detailed routine
-      temperature: 0.7,
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error(`API request failed: ${response.status}`);
-  }
-
-  const data = await response.json();
-  return data.choices[0].message.content;
-}
 
 /* Function to remove loading message */
 function removeLoadingMessage() {
